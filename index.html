@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="robots" content="noindex" />
+    <style>
+      body{margin:0;padding:0;background-color:#dddddd;color:#666;}
+      .wrapper{border:1px solid #ccc;background-color:#f8f8f8;width:600px;margin:0 auto;}
+      header{text-align:center;margin:0;border-bottom:1px solid #e8e8e8}
+      section,header,footer{padding:10px;}
+      section{min-height:500px;}
+      footer{height:75px;border-top:1px solid #e8e8e8}
+      .livechat{width:200px;height:200px;background:#cccccc;}
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+       $(window).load(function(){
+         $('body').append('<div class="livechat"></div>');
+         $('.livechat').load('http://livechat.lastrose.com:8000');
+       });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>Node.js Livechat messanger</h1>
+        </header>
+        <section>
+            <h2>This page is a sample client facing page</h2>
+        </section>
+        <footer>
+            <p>Powered by Node.js, RedisDB</p>
+        </footer>
+    </div>
+</body>
+</html>
