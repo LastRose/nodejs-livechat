@@ -1,5 +1,8 @@
-.livechat{
-	width:200px;
-	height:200px;
+#help{
+	width:300px;
+	height:500px;
 	background:#cccccc;
+	position:static;
+	bottom:0px;
+	right:0px;
 }

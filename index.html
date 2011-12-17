@@ -4,16 +4,10 @@
     <title>Welcome!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="stlyesheet" href="/assets/css/style.css" media="screen">
+    <link rel="stylesheet" href="/assets/css/style.css" media="screen">
     <link rel="stylesheet" href="/assets/css/livechat.css" media="screen">
     <meta name="robots" content="noindex" />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="http://localhost:8000/nowjs/now.js"></script>
-    <script>
-       $(window).load(function(){
-         $('body').append('<div class="livechat"></div>');
-       });
-    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -22,10 +16,18 @@
         </header>
         <section>
             <h2>This page is a sample client facing page</h2>
+            <button id='livehelp'>I need Help</button>
         </section>
         <footer>
             <p>Powered by Node.js, RedisDB</p>
         </footer>
     </div>
 </body>
+    <script>
+        $('#livehelp').click(function(e) {
+          e.preventDefault();
+          $('body').append('<div id="help"></div>'); 
+          $('<iframe width="300px" height="500px" sandbox="allow-same-origin allow-forms allow-scripts" src="http://livechat.lastrose.com:8000/chat"></iframe>').appendTo('#help');
+        });
+    </script>
 </html>
