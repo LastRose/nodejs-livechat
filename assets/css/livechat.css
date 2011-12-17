@@ -1,8 +1,9 @@
 #help{
 	width:300px;
 	height:500px;
+	overflow:scroll;
 	background:#cccccc;
-	position:static;
+	position:absolute;
 	bottom:0px;
 	right:0px;
 }
