@@ -81,9 +81,23 @@ nowjs.on('connect', function(){
       console.log("Joined: " + this.now.name);
 });
 
+nowjs.on('newgroup',function(group){
+	  	console.log('You have successfully created the group `' + group.groupName + '`');
+})
 
 nowjs.on('disconnect', function(){
-      console.log("Left: " + this.now.name);
+  	   console.log("Left: " + this.now.name);
+  	   var u = this
+  	   nowjs.getGroups(function(groups){
+  	   	console.log(groups);
+  	   	var i = groups.length;
+  	   	for(i;i>0;--i){
+  	   		groups[i].removeUser(u.user.clientId)
+  	   	}
+  	   })
+});
+nowjs.on('groupdel', function (group) {
+    		console.log('Everyone now no longer possesses ' + group.groupName);
 });
 
 everyone.now.distributeMessage = function(message){
