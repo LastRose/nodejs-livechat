@@ -69,6 +69,12 @@ app.get('/chat', function(req, res){
   }});
 });
 
+app.get('/agent',function(req, res){
+	res.render('agent', {locals: {
+		title: 'Agent Screen'
+	}})
+})
+
 app.listen(8000);
 
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
@@ -79,27 +85,22 @@ nowjs.on('connect', function(){
 			var group = nowjs.getGroup(this.now.name + d);
 			group.addUser(this.user.clientId);
       console.log("Joined: " + this.now.name);
+      group.now.distributeMessage = function(message){
+			  group.now.receiveMessage(this.now.name, message);
+			};
 });
 
 nowjs.on('newgroup',function(group){
 	  	console.log('You have successfully created the group `' + group.groupName + '`');
 })
 
-nowjs.on('disconnect', function(){
-  	   console.log("Left: " + this.now.name);
-  	   var u = this
-  	   nowjs.getGroups(function(groups){
-  	   	console.log(groups);
-  	   	var i = groups.length;
-  	   	for(i;i>0;--i){
-  	   		groups[i].removeUser(u.user.clientId)
-  	   	}
-  	   })
-});
-nowjs.on('groupdel', function (group) {
-    		console.log('Everyone now no longer possesses ' + group.groupName);
-});
+everyone.now.joinGroup = function(groupname){
+	var group = nowjs.getGroup(groupname);
+	group.addUser(this.user.clientId);
+	group.now.distributeMessage('Admin has joined the chat');
+	everyone.now.findGroups();
+}
 
-everyone.now.distributeMessage = function(message){
-  everyone.now.receiveMessage(this.now.name, message);
-};
+everyone.now.findGroups = function(){
+	everyone.now.setGroups(nowjs.getGroups());
+}
