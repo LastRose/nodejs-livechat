@@ -8,7 +8,6 @@ script
       }
       now.setGroups = function(groups){
         $("#groups").html(function(){
-          console.log(groups);
           var r = ''
           var i = groups.length;
           for(i;i>0;--i){
@@ -17,8 +16,8 @@ script
           return r;
         });
       }
-      $("#groups li").on('click',function(){now.joinGroup($(this).html())});
-      $(".send-button").on('click', function(){
+      $("#groups li").live('click',function(){now.joinGroup($(this).html())});
+      $(".send-button").live('click', function(){
         now.distributeMessage($("#text-input").val());
         $("#text-input").val("");
         $("#text-input").focus();

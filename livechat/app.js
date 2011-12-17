@@ -84,7 +84,11 @@ var d = new Date();
 
 everyone.now.joinGroup = function(groupname){
 	var group = nowjs.getGroup(groupname);
+	console.log('admin joined group '+ groupname);
 	group.addUser(this.user.clientId);
+	group.now.distributeMessage = function(message){
+			  group.now.receiveMessage(this.now.name, message);
+	};
 	group.now.distributeMessage('Admin has joined the chat');
 }
 
