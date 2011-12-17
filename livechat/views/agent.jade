@@ -24,7 +24,7 @@ script
         var a = $('#'+title);
         if(a.length < 1){
           now.joinGroup(title)
-          $('body').append('<div id="'+title+'"></div>').find('#'+title).append('<div class="messages"><input class="text-input" type="text"><input class="send-button" type="button" value="send"></div>').dialog();
+          $('body').append('<div id="'+title+'"></div>').find('#'+title).append('<div class="messages"><input class="text-input" type="text"><input class="send-button" type="button" value="send"></div>').dialog({ title: title });
         }else{
           a.dialog('open');
           $('.'+title).css('color','')
