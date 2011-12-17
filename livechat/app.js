@@ -80,16 +80,12 @@ app.listen(8000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 var everyone = nowjs.initialize(app);
-var d = new Date();
 
 everyone.now.joinGroup = function(groupname){
 	var group = nowjs.getGroup(groupname);
 	console.log('admin joined group '+ groupname);
 	group.addUser(this.user.clientId);
-	group.now.distributeMessage = function(message){
-			  group.now.receiveMessage(this.now.name, message);
-	};
-	group.now.distributeMessage('Admin has joined the chat');
+	group.now.receiveMessage(this.now.name, 'Admin has joined the chat',groupname);
 }
 
 everyone.now.popGroups = function(){
@@ -99,15 +95,17 @@ everyone.now.popGroups = function(){
 }
 
 nowjs.on('connect', function(){
-			var group = nowjs.getGroup(this.now.name + d);
+			var group = nowjs.getGroup(this.now.name);
+			this.now.groupname = this.now.name;
 			group.addUser(this.user.clientId);
       console.log("Joined: " + this.now.name);
-      group.now.distributeMessage = function(message){
-			  group.now.receiveMessage(this.now.name, message);
-			};
 			everyone.now.popGroups();
 });
 
 nowjs.on('newgroup',function(group){
 	  	console.log('You have successfully created the group `' + group.groupName + '`');
 })
+everyone.now.distributeMessage = function(message,groupname){
+	group = nowjs.getGroup(groupname);
+	group.now.receiveMessage(this.now.name, message, groupname);
+}

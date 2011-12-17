@@ -6,12 +6,12 @@ h2 Chat window
 
 script
    $(document).ready(function(){
-      now.receiveMessage = function(name, message){
+      now.receiveMessage = function(name, message,groupname){
         $("#messages").prepend("<br>" + name + ": " + message);
       }
       now.setGroups = function(){}
       $("#send-button").click(function(){
-        now.distributeMessage($("#text-input").val());
+        now.distributeMessage($("#text-input").val(),now.groupname);
         $("#text-input").val("");
         $("#text-input").focus();
       });

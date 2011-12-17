@@ -3,8 +3,8 @@ ul#groups
 
 script
    $(document).ready(function(){
-      now.receiveMessage = function(name, message){
-        $("#messages").append("<br>" + name + ": " + message);
+      now.receiveMessage = function(name, message, groupname){
+        $("#"+groupname+" .messages").append("<br>" + name + ": " + message);
       }
       now.setGroups = function(groups){
         $("#groups").html(function(){
@@ -16,11 +16,23 @@ script
           return r;
         });
       }
-      $("#groups li").live('click',function(){now.joinGroup($(this).html())});
+      $("#groups li").live('click',function(){
+        title = $(this).html();
+        now.joinGroup(title)
+        var a = $('#'+title);
+        if(a.length < 1){
+          $('body').append('<div id="'+title+'"></div>').find('#'+title).append('<div class="messages"><input class="text-input" type="text"><input class="send-button" type="button" value="send"></div>').dialog();
+        }else{
+          //unhide dialog box
+        }
+      });
       $(".send-button").live('click', function(){
-        now.distributeMessage($("#text-input").val());
-        $("#text-input").val("");
-        $("#text-input").focus();
+        button = $(this);
+        text = button.prev();
+        group = button.parent().parent().attr('id');
+        now.distributeMessage(text.val(),group);
+        text.val("");
+        text.focus();
       });
       now.name = prompt("What's your name?", "");
     });
