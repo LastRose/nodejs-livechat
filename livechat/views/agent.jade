@@ -1,5 +1,5 @@
 h2 Agent
-  ul#groups
+ul#groups
 
 script
    $(document).ready(function(){
@@ -8,14 +8,16 @@ script
       }
       now.setGroups = function(groups){
         $("#groups").html(function(){
+          console.log(groups);
           var r = ''
           var i = groups.length;
           for(i;i>0;--i){
              r = r + "<li>"+groups[i]+"</li>";
           }
+          return r;
         });
       }
-      $("#groups li").on('click',now.joinGroup($(this).html()));
+      $("#groups li").on('click',function(){now.joinGroup($(this).html())});
       $(".send-button").on('click', function(){
         now.distributeMessage($("#text-input").val());
         $("#text-input").val("");

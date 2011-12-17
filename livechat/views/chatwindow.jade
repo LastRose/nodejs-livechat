@@ -9,6 +9,7 @@ script
       now.receiveMessage = function(name, message){
         $("#messages").prepend("<br>" + name + ": " + message);
       }
+      now.setGroups = function(){}
       $("#send-button").click(function(){
         now.distributeMessage($("#text-input").val());
         $("#text-input").val("");
