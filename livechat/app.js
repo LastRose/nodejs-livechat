@@ -59,20 +59,20 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {locals: {
-    title: 'NowJS + Express Example'
+    title: 'LivechatJS'
   }});
 });
 
 app.get('/chat', function(req, res){
   res.render('chatwindow', {locals: {
-    title: 'NowJS + Express Example'
+    title: 'LivechatJS'
   }});
 });
 
 app.get('/agent',function(req, res){
 	res.render('agent', {locals: {
-		title: 'Agent Screen'
-	}})
+		title: 'LivechatJS - Agents'
+	}});
 })
 
 app.listen(8000);
@@ -82,7 +82,16 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 var everyone = nowjs.initialize(app);
 var admins = new Array();
 
-
+everyone.now.clientlogin = function(email,name,dept){
+	var group = nowjs.getGroup(name);
+	this.now.groupname = name;
+	this.now.name = name;
+	this.now.email = email;
+	this.now.dept = dept;
+	group.addUser(this.user.clientId);
+	console.log('Joined: ' + this.now.name);
+	everyone.now.popGroups();
+}
 everyone.now.joinGroup = function(groupname){
 	var group = nowjs.getGroup(groupname);
 	console.log('admin joined group '+ groupname);
@@ -116,13 +125,6 @@ everyone.now.popGroups = function(){
 	});
 }
 
-nowjs.on('connect', function(){
-			var group = nowjs.getGroup(this.now.name);
-			this.now.groupname = this.now.name;
-			group.addUser(this.user.clientId);
-      console.log("Joined: " + this.now.name);
-			everyone.now.popGroups();
-});
 nowjs.on('disconnect', function(){
 			ind = admins.indexOf(this.user.clientId);
 			if(ind != -1){			

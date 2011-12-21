@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/livechat.css" media="screen">
     <meta name="robots" content="noindex" />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://livechatjs.com:8000/nowjs/now.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -16,7 +17,13 @@
         </header>
         <section>
             <h2>This page is a sample client facing page</h2>
-            <button id='livehelp'>I need Help</button>
+            <form>
+                <label for="lc_name">Name</label>
+                <input id="lc_name" name="lc_name" type="text" placeholder="your name">
+                <label for="lc_email">E-mail Address</label>
+                <input id="lc_email" name="lc_email" type="email" placeholder="user@email.com">
+                <button id='livehelp'>I need Help</button>
+            </form>
         </section>
         <footer>
             <p>Powered by Node.js, express, now.js, jquery and jquery UI</p>
@@ -24,10 +31,28 @@
     </div>
 </body>
     <script>
-        $('#livehelp').click(function(e) {
-          e.preventDefault();
-          $('body').append('<div id="help"></div>'); 
-          $('<iframe width="300px" height="500px" sandbox="allow-same-origin allow-forms allow-scripts" src="http://livechat.lastrose.com:8000/chat"></iframe>').appendTo('#help');
+        $(document).ready(function(){
+           $('#livehelp').click(function(e){
+               e.preventDefault();
+               var email = $('#lc_email').val();
+               var name = $('#lc_name').val();
+               var dept = null;
+               now.clientlogin(email,name,dept);
+
+               var r = '<div id="messages"><div style="position:absolute;bottom:25px;"></div><input id="text-input" type="text"><input id="send-button" type="button" value="send"></div>';
+               $('section form').detach();
+               $('section').append(r);
+           })
+           now.receiveMessage = function(name, message,groupname){
+             $("#messages").prepend(name + ": " + message + "<br>");
+           }
+
+           now.setGroups = function(){}
+           $("#send-button").live('click',function(){
+             now.distributeMessage($("#text-input").val(),now.groupname);
+             $("#text-input").val("");
+             $("#text-input").focus();
+           });
         });
     </script>
 </html>
